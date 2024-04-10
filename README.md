@@ -47,7 +47,7 @@ You should now have your app running in Chrome on `http://localhost:3000`
 
 - [ ] At this point, nothing happens when the edit form is submitted. Add in the api call needed to update the server with our updated movie data.
 
-- [ ] Don't forget to make sure that your server data and your local state are in sync! Make any changes needed to the edit route to give the edit form access to App's `setMovies` method.
+- [ ] Don't forget to make sure that your server data and your local state are in sync! Make any changes ne0eded to the edit route to give the edit form access to App's `setMovies` method.
 
 - [ ] Now that we have access to `setMovies`, made sure the updated list of movies is saved to our global state.
 

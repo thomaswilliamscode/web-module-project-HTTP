@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
+import { getById, putById, getAllMovies } from '../actions/EditMovieForm'
+import { moviesUrl } from '../utilities/utilities'
+
 const EditMovieForm = (props) => {
+  // const { push } = useHistory()
+  const { id } = useParams()
   const navigate = useNavigate();
 
   const { setMovies } = props;
+
   const [movie, setMovie] = useState({
     title: "",
     director: "",
@@ -15,6 +21,21 @@ const EditMovieForm = (props) => {
     metascore: 0,
     description: ""
   });
+
+  // We need to be able to load in the current movie's attributes into our local form state. When `EditMovieForm` mount, retrieve our current id's movie from the api and save the data returned to local state.
+
+  useEffect( () => {
+    getById(id).then( (res) => {
+      const { title, director, genre, metascore, description} = res
+      setMovie({
+        title: title,
+        director: director,
+        genre: genre,
+        metascore: metascore,
+        description: description,
+      })
+    })
+  }, [])
 
   const handleChange = (e) => {
     setMovie({
@@ -26,8 +47,12 @@ const EditMovieForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Make your put request here
+    putById(id, movie)
     // On success, set the updated movies in state
+    getAllMovies().then( (res) => setMovies(res))
     // and also navigate the app to the updated movie path
+      navigate(`/movies/${id}`);
+    
   }
 
   const { title, director, genre, metascore, description } = movie;
